@@ -1,4 +1,5 @@
 import requests
+import json
 
 baseurl = 'https://data.nbn.org.uk'
 
@@ -9,22 +10,29 @@ class Connection:
         'session - session object from requests'
         self.session = session
 
-    def getObservations(self):
-        print "getObs" #TODO put together URL with urlliby function
+    def get_observations(self, tvks=[], start_year=1990, end_year=2010):
+        """Get species observations
+        
+        :param tvks: list of speicies codes, e.g. ['NBNSYS0000007094','NBNSYS0000007095']
+        :param startYear: default 1990
+        :param endYear: default 2010"""
+        
+        #TODO put together URL with urlliby function
         url = '/'.join([baseurl, 'api', 'taxonObservations?']) 
-        tvks = ['NBNSYS0000007094','NBNSYS0000007095']
+
         for tvk in tvks:
             url += 'ptvk=%s&' % tvk
         #can't use params parameter as requests can't handle duplicate keys. The server can't handle commar seperated keys.
         url += 'datasetKey=SGB00001&'
-        url += 'startYear=1990&' 
-        url += 'endYear=2010'
-        print url
+        url += 'startYear=%d&' % start_year
+        url += 'endYear=%d' % end_year
+        #print(url)
         r = self.session.get(url)
-        print r.text
+        return json.loads(r)
+        #print(r.text)
     
 def connect(username, password):
-    print "Trying to log in"
+    print("Trying to log in")
     session = requests.session()
     p = session.post('https://data.nbn.org.uk/User/SSO/Login', data = {'username':username, 'password':password})
     #print 'headers', p.headers
