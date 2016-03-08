@@ -15,10 +15,12 @@ class Connection:
         
         :param tvks: list of speicies codes, e.g. ['NBNSYS0000007094','NBNSYS0000007095']
         :param startYear: default 1990
-        :param endYear: default 2010"""
+        :param endYear: default 2010
+        
+        :returns json list of observations"""
         
         #TODO put together URL with urlliby function
-        url = '/'.join([baseurl, 'api', 'taxonObservations?']) 
+        url = '/'.join([baseurl, 'api', 'taxonObservations?'])
 
         for tvk in tvks:
             url += 'ptvk=%s&' % tvk
@@ -28,8 +30,28 @@ class Connection:
         url += 'endYear=%d' % end_year
         #print(url)
         r = self.session.get(url)
-        return json.loads(r)
+        return json.loads(r.text)
         #print(r.text)
+
+    def get_ancestry(self, tvk):
+        """Details of ancestry (don't know what this does yet).
+        
+        :param tvk: a single code, e.g. 'NBNSYS0000007094'
+   
+        :returns json info about the species"""
+        
+        #TODO put together URL with urlliby function
+        url = '/'.join([baseurl, 'api', 'taxa',tvk]) 
+
+        print(url)
+        r = self.session.get(url)
+        return json.loads(r.text)
+        
+    def get_tvk(self,species_name):
+        """Get TVK code for a species
+        
+        :param species_name: name of the species"""
+        
     
 def connect(username, password):
     print("Trying to log in")
