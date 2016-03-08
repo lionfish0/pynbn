@@ -28,13 +28,13 @@ class Connection:
         url += 'datasetKey=SGB00001&'
         url += 'startYear=%d&' % start_year
         url += 'endYear=%d' % end_year
-        #print(url)
+        print(url)
         r = self.session.get(url)
         return json.loads(r.text)
         #print(r.text)
 
     def get_ancestry(self, tvk):
-        """Details of ancestry (don't know what this does yet).
+        """Details of ancestry
         
         :param tvk: a single code, e.g. 'NBNSYS0000007094'
    
@@ -47,10 +47,33 @@ class Connection:
         r = self.session.get(url)
         return json.loads(r.text)
         
-    def get_tvk(self,species_name):
-        """Get TVK code for a species
+    def get_species_in_group(self, grp):
+        """?
+        
+        :param tvk: a single code, e.g. 'NBNSYS0000007094'
+   
+        :returns ...?"""
+        
+        #TODO put together URL with urlliby function
+        url = '/'.join([baseurl, 'api', 'taxa?']) 
+        url += 'taxonOutputGroupKey=%s&rows=5000' % grp
+        
+        print(url)
+        r = self.session.get(url)
+        return json.loads(r.text)
+        
+    def get_tvk(self,query):
+        """Get TVK code for a species ??
         
         :param species_name: name of the species"""
+        
+        #TODO put together URL with urlliby function
+        url = '/'.join([baseurl, 'api', 'search/taxa?q=',query]) 
+
+        print(url)
+        r = self.session.get(url)
+        return json.loads(r.text)        
+        
         
     
 def connect(username, password):
