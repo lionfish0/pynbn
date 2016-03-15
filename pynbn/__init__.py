@@ -10,7 +10,7 @@ class Connection:
         'session - session object from requests'
         self.session = session
 
-    def get_observations(self, tvks=[], start_year=1990, end_year=2010):
+    def get_observations(self, tvks=[], start_year=1990, end_year=2010, dataset=None):
         """Get species observations
         
         :param tvks: list of speicies codes, e.g. ['NBNSYS0000007094','NBNSYS0000007095']
@@ -25,7 +25,8 @@ class Connection:
         for tvk in tvks:
             url += 'ptvk=%s&' % tvk
         #can't use params parameter as requests can't handle duplicate keys. The server can't handle commar seperated keys.
-        url += 'datasetKey=SGB00001&'
+        if (dataset is not None):
+            url += 'datasetKey=%s&' % dataset
         url += 'startYear=%d&' % start_year
         url += 'endYear=%d' % end_year
         print(url)
