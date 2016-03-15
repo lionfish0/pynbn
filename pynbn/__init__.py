@@ -30,7 +30,19 @@ class Connection:
         url += 'endYear=%d' % end_year
         print(url)
         r = self.session.get(url)
-        return json.loads(r.text)
+        if r.status_code != 200:
+            print("Server status code: %d." % r.status_code)
+            print("Printing server response:")
+            print(r.text)
+            #return []
+        try:
+            jsondata = json.loads(r.text)
+        except ValueError:
+            print("Unable to turn result from server into json")
+            print("Printing server response:")
+            print(r.text)
+            return []
+        return jsondata
         #print(r.text)
 
     def get_ancestry(self, tvk):
@@ -79,15 +91,9 @@ class Connection:
 def connect(username, password):
     print("Trying to log in")
     session = requests.session()
-    p = session.post('https://data.nbn.org.uk/User/SSO/Login', data = {'username':username, 'password':password})
-    #print 'headers', p.headers
-    #print 'cookies', requests.utils.dict_from_cookiejar(session.cookies)
-    #print 'html',  p.text
-    #r = requests.post('https://data.nbn.org.uk/User/SSO/Login', data = {'username':username, 'password':password})
-    #for h in r.headers:
-    #    print(h)
-    #for c in r.cookies:
-    #    print(c)
+    p = session.post('https://data.nbn.org.uk/User/SSO/Login', data = {'username':username, 'password':password})   
+    whoami = session.get('https://data.nbn.org.uk/api/user') #check if we're logged in
+    print(whoami.text)
     print("Connected")
     #TODO CHECK IF IT WORKED
     return Connection(session)
