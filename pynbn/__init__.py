@@ -31,6 +31,7 @@ class Connection:
         url += 'endYear=%d' % end_year
         print(url)
         r = self.session.get(url)
+        #print r.text
         if r.status_code != 200:
             print("Server status code: %d." % r.status_code)
             print("Printing server response:")
