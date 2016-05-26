@@ -5,7 +5,6 @@ baseurl = 'https://data.nbn.org.uk'
 
 class Connection:
     'pynbn connection to the NBN server'
-    
     def __init__(self, session):
         'session - session object from requests'
         self.session = session
@@ -29,7 +28,7 @@ class Connection:
             url += 'datasetKey=%s&' % dataset
         url += 'startYear=%d&' % start_year
         url += 'endYear=%d' % end_year
-        print(url)
+        #print(url)
         r = self.session.get(url)
         #print r.text
         if r.status_code != 200:
@@ -57,7 +56,7 @@ class Connection:
         #TODO put together URL with urlliby function
         url = '/'.join([baseurl, 'api', 'taxa',tvk]) 
 
-        print(url)
+        #print(url)
         r = self.session.get(url)
         return json.loads(r.text)
         
@@ -72,7 +71,7 @@ class Connection:
         url = '/'.join([baseurl, 'api', 'taxa?']) 
         url += 'taxonOutputGroupKey=%s&rows=5000' % grp
         
-        print(url)
+        #print(url)
         r = self.session.get(url)
         return json.loads(r.text)
         
@@ -84,19 +83,19 @@ class Connection:
         #TODO put together URL with urlliby function
         url = '/'.join([baseurl, 'api', 'search/taxa?q=',query]) 
 
-        print(url)
+        #print(url)
         r = self.session.get(url)
         return json.loads(r.text)        
         
         
     
 def connect(username, password):
-    print("Trying to log in")
+    #print("Trying to log in")
     session = requests.session()
     p = session.post('https://data.nbn.org.uk/User/SSO/Login', data = {'username':username, 'password':password})   
     whoami = session.get('https://data.nbn.org.uk/api/user') #check if we're logged in
-    print(whoami.text)
-    print("Connected")
+    #print(whoami.text)
+    #print("Connected")
     #TODO CHECK IF IT WORKED
     return Connection(session)
     
