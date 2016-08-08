@@ -1,8 +1,11 @@
 # pynbn
 
-Access to NBN data from Python.
-
+Access to NBN data using Python.
 Somewhat based on the R package, rnbn.
+
+You can download and use it using:
+
+    pip install pynbn
 
 ## References
 
