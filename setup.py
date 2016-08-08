@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pynbn',
-      version='0.1',
+      version='1.0.0',
       description='Access to NBN data from python',
       url='https://github.com/lionfish0/pynbn',
       author='Mike Smith',
